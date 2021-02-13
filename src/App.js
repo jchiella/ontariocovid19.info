@@ -1,11 +1,13 @@
+import { useState, useEffect } from 'react';
+
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 
-import { ResponsiveLine } from '@nivo/line';
+import Chart from './Chart';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import data from './data.json';
+import { fetchData } from './data';
 
 const useStyles = makeStyles({
   mainContainer: {
@@ -20,11 +22,22 @@ const useStyles = makeStyles({
   },
   chartContainer: {
     height: '60vh',
+    border: '1px solid black',
+    padding: '1rem',
   },
 });
 
 export default function App() {
   const classes = useStyles();
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetchData().then((data) => {
+      console.log(data);
+      setData(data);
+    });
+  } ,[]);
 
   return (
     <Container className={classes.mainContainer}>
@@ -35,7 +48,7 @@ export default function App() {
       </Container>
       
       <Container className={classes.chartContainer}>
-        <ResponsiveLine data={data} />
+        <Chart data={data} />
       </Container>
     </Container>
   );
