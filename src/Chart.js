@@ -2,10 +2,19 @@ import { ResponsiveLine } from '@nivo/line';
 
 import ChartTooltip from './ChartTooltip';
 
-export default function Chart({ data, enabledSeries }) {
+export default function Chart({ data, enabledSeries, rangeStart, rangeEnd }) {
   return (
     <ResponsiveLine
-        data={data.filter((series) => enabledSeries.includes(series.id))}
+        data={
+          data
+            .filter((series) => enabledSeries.includes(series.id))
+            .map((series) => {
+              return {
+                id: series.id,
+                data: series.data.map((item) => new Date(item.x) >= rangeStart /*&& new Date(item.x) <= rangeEnd*/),
+              };
+            })
+        }
         margin={{
           'bottom': 80,
           'left': 40,
@@ -29,10 +38,6 @@ export default function Chart({ data, enabledSeries }) {
         areaOpacity={0.3}
 
         useMesh={true}
-
-        //tooltip={({point}) => {
-        //  return <div>{`${point.serieId} on ${point.data.xFormatted}: ${point.data.yFormatted}`}</div>;
-        //}}
 
         tooltip={({point}) => {
           return <ChartTooltip series={point.serieId} date={point.data.xFormatted} value={point.data.yFormatted} />

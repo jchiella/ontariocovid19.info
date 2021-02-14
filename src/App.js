@@ -6,6 +6,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import FormGroup from '@material-ui/core/FormGroup';
 
 import Chart from './Chart';
 
@@ -32,6 +33,11 @@ const useStyles = makeStyles({
   card: {
     margin: '1rem',
     textAlign: 'center',
+  },
+  controls: {
+    flexDirection: 'row',
+    width: '80%',
+    margin: 'auto',
   }
 });
 
@@ -41,6 +47,9 @@ export default function App() {
   const [data, setData] = useState([]);
   const [enabledSeries, setEnabledSeries] = useState([]);
   const [seriesOptions, setSeriesOptions] = useState([]);
+
+  const [rangeStart, setRangeStart] = useState(new Date('2020-01-26'));
+  const [rangeEnd, setRangeEnd] = useState(new Date());
 
   useEffect(() => {
     fetchData().then((data) => {
@@ -70,22 +79,50 @@ export default function App() {
           </CardContent>
         </Card>
 
-        <Autocomplete
-          multiple
-          options={seriesOptions}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              variant="outlined"
-              label="Datasets"
-            />
-          )}
-          onChange={updateSeries}
-        />
+        <FormGroup className={classes.controls}>
+
+          <TextField
+            onChange={(e) => setRangeStart(new Date(e.target.value))}
+            label="Start of Range"
+            type="date"
+            defaultValue="2020-01-26"
+          />
+
+          <Autocomplete
+            multiple
+            fullWidth={false}
+            options={seriesOptions}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="outlined"
+                label="Datasets"
+              />
+            )}
+            style={{
+              margin: 'auto 2rem',
+              width: '50%',
+            }}
+            onChange={updateSeries}
+          />
+
+          <TextField
+            onChange={(e) => setRangeEnd(new Date(e.target.value))}
+            label="End of Range"
+            type="date"
+            defaultValue={
+              new Date((new Date()).getTime() - (new Date().getTimezoneOffset() * 60000 ))
+                .toISOString()
+                .split("T")[0]
+            }
+          />
+        </FormGroup>
+        
       </Container>
       
       <Container className={classes.chartContainer}>
-        <Chart data={data} enabledSeries={enabledSeries} />
+        <h1>{rangeStart.toDateString()} - {rangeEnd.toDateString()}</h1>
+        <Chart data={data} enabledSeries={enabledSeries} rangeStart={rangeStart} rangeEnd={rangeEnd} />
       </Container>
     </Container>
   );
