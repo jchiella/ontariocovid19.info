@@ -45,6 +45,7 @@ const useStyles = makeStyles({
     flexDirection: 'row',
     width: '100%',
     margin: 'auto',
+    justifyContent: 'center',
   }
 });
 
@@ -115,6 +116,7 @@ export default function App() {
               style={{
                 margin: 'auto 2rem',
                 flexGrow: 1,
+                maxWidth: '60%',
               }}
               onChange={updateSeries}
             />
