@@ -2,10 +2,10 @@ import { ResponsiveLine } from '@nivo/line';
 
 import ChartTooltip from './ChartTooltip';
 
-export default function Chart({ data }) {
+export default function Chart({ data, enabledSeries }) {
   return (
     <ResponsiveLine
-        data={data}
+        data={data.filter((series) => enabledSeries.includes(series.id))}
         margin={{
           'bottom': 80,
           'left': 40,

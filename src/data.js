@@ -21,15 +21,15 @@ const transformData = (data) => {
   const finalData = [];
 
   // Total Cases series
-  // finalData.push({
-  //   id: 'Total Cases',
-  //   data: initialData.map((record) => {
-  //     return {
-  //       x: record['Reported Date'].split('T')[0],
-  //       y: record['Total Cases'],
-  //     };
-  //   })
-  // });
+  finalData.push({
+    id: 'Total Cases',
+    data: initialData.map((record) => {
+      return {
+        x: record['Reported Date'].split('T')[0],
+        y: record['Total Cases'],
+      };
+    })
+  });
 
   // Deaths series
   finalData.push({
