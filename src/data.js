@@ -17,7 +17,7 @@ const transformData = (data) => {
 
   // Total Cases series
   finalData.push({
-    id: 'totalCases',
+    id: 'Total Cases',
     data: data.result.records.map((record) => {
       return {
         x: record['Reported Date'].split('T')[0],

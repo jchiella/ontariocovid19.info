@@ -1,5 +1,7 @@
 import { ResponsiveLine } from '@nivo/line';
 
+import ChartTooltip from './ChartTooltip';
+
 export default function Chart({ data }) {
   return (
     <ResponsiveLine
@@ -28,10 +30,13 @@ export default function Chart({ data }) {
 
         useMesh={true}
 
+        //tooltip={({point}) => {
+        //  return <div>{`${point.serieId} on ${point.data.xFormatted}: ${point.data.yFormatted}`}</div>;
+        //}}
+
         tooltip={({point}) => {
-          return <div>{`${point.serieId} on ${point.data.xFormatted}: ${point.data.yFormatted}`}</div>;
+          return <ChartTooltip series={point.serieId} date={point.data.xFormatted} value={point.data.yFormatted} />
         }}
-        
       />
   )
 }
