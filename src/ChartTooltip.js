@@ -10,14 +10,23 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ChartTooltip({ series, date, value }) {
+export default function ChartTooltip({ date, points }) {
   const classes = useStyles();
 
   return (
     <section className={classes.tooltip}>
-      <strong>{series}</strong><br />
       <em>{new Date(date).toDateString()}</em><br />
-      {value.toLocaleString()}
+      {
+        points.map((point, i) => {
+          return (
+            <div key={i}>
+              <strong>{point.serieId}:&nbsp;</strong>
+              {point.data.yFormatted.toLocaleString()}
+            </div>
+          );
+        })
+      }
+      
     </section>
   );
 }

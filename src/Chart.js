@@ -39,10 +39,10 @@ export default function Chart({ data, enabledSeries, rangeStart, rangeEnd }) {
         enableArea={true}
         areaOpacity={0.3}
 
-        useMesh={true}
+        enableSlices="x"
 
-        tooltip={({point}) => {
-          return <ChartTooltip series={point.serieId} date={point.data.xFormatted} value={point.data.yFormatted} />
+        sliceTooltip={({slice}) => {
+          return <ChartTooltip date={slice.points[0].data.xFormatted} points={slice.points} />;
         }}
       />
   )
