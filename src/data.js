@@ -12,19 +12,35 @@ const fetchData = async () => {
     .then((data) => transformData(data));
 }
 
+const convertToDate = (str) => new Date(str.split('T')[0]);
+
 const transformData = (data) => {
+  const initialData = data.result.records.sort((a, b) => {
+    return convertToDate(a['Reported Date']) - convertToDate(b['Reported Date']);
+  });
   const finalData = [];
 
   // Total Cases series
+  // finalData.push({
+  //   id: 'Total Cases',
+  //   data: initialData.map((record) => {
+  //     return {
+  //       x: record['Reported Date'].split('T')[0],
+  //       y: record['Total Cases'],
+  //     };
+  //   })
+  // });
+
+  // Deaths series
   finalData.push({
-    id: 'Total Cases',
-    data: data.result.records.map((record) => {
+    id: 'Deaths',
+    data: initialData.map((record) => {
       return {
         x: record['Reported Date'].split('T')[0],
-        y: record['Total Cases'],
+        y: record['Deaths'],
       };
     })
-  });
+  })
 
   return finalData;
 }
