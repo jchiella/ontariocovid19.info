@@ -32,8 +32,15 @@ const transformData = (data) => {
   });
 
   return [
-    basicDataset(initialData, 'Total Cases', 'Total Cases'),
-    basicDataset(initialData, 'Deaths', 'Deaths'),
+    basicDataset(initialData, 'Confirmed Positive', 'Active Cases'),
+    basicDataset(initialData, 'Resolved', 'Cumulative Resolved Cases'),
+    basicDataset(initialData, 'Deaths', 'Cumulative Deaths'),
+    basicDataset(initialData, 'Total Cases', 'Cumulative Cases'),
+    basicDataset(initialData, 'Total tests completed in the last day', 'Tests Completed in Previous 24h'),
+    basicDataset(initialData, 'Under Investigation', 'Pending Tests'),
+    basicDataset(initialData, 'Number of patients hospitalized with COVID-19', 'Current Hospitalizations'),
+    basicDataset(initialData, 'Number of patients in ICU with COVID-19', 'Current ICU Patients'),
+    basicDataset(initialData, 'Number of patients in ICU on a ventilator with COVID-19', 'Current Patients on a Ventilator'),
   ];
 }
 
