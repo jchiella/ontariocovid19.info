@@ -59,12 +59,16 @@ export default function App() {
   const [rangeStart, handleRangeStartChange] = useState(new Date('2020-01-26'));
   const [rangeEnd, handleRangeEndChange] = useState(new Date());
 
+  const [windowSize, setWindowSize] = useState(5);
+
   useEffect(() => {
-    fetchData().then((data) => {
-      setData(data);
-      setSeriesOptions(data.map((series) => series.id));
-    });
-  }, []);
+    if (windowSize > 0) {
+      fetchData(windowSize).then((data) => {
+        setData(data);
+        setSeriesOptions(data.map((series) => series.id));
+      });
+    }
+  }, [windowSize]);
 
   const updateSeries = (event, value, reason) => {
     setEnabledSeries(value);
@@ -92,16 +96,6 @@ export default function App() {
 
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <FormGroup className={classes.controls}>
-            <DatePicker
-              label="Start Date"
-              value={rangeStart}
-              onChange={handleRangeStartChange}
-              minDate="2020-01-26"
-              minDateMessage="Date cannot be before the start of the pandemic"
-              maxDate={rangeEnd}
-              maxDateMessage="Date cannot be after the end of the range"
-            />
-
             <Autocomplete
               multiple
               fullWidth={false}
@@ -122,13 +116,33 @@ export default function App() {
             />
 
             <DatePicker
+              label="Start Date"
+              value={rangeStart}
+              onChange={handleRangeStartChange}
+              minDate="2020-01-26"
+              minDateMessage="Date cannot be before the start of the pandemic"
+              maxDate={rangeEnd}
+              maxDateMessage="Date cannot be after the end of the range"
+            />
+
+            <DatePicker
               label="End Date"
+              variant="outlined"
               value={rangeEnd}
               onChange={handleRangeEndChange}
               minDate={rangeStart}
               minDateMessage="Date cannot be before the start of the range"
               maxDate={new Date()}
               maxDateMessage="Date cannot be after today"
+            />
+
+            <TextField
+              label="Rolling Average Window Size"
+              type="number"
+              variant="outlined"
+              value={windowSize}
+              onChange={(e) => setWindowSize(e.target.value)}
+              inputProps={{ min: 1, max: 30 }}
             />
           </FormGroup>
         </MuiPickersUtilsProvider>
