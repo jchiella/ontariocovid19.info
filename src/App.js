@@ -4,6 +4,8 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 
 import Chart from './Chart';
 
@@ -27,6 +29,10 @@ const useStyles = makeStyles({
     border: '1px solid black',
     padding: '1rem',
   },
+  card: {
+    margin: '1rem',
+    textAlign: 'center',
+  }
 });
 
 export default function App() {
@@ -50,9 +56,19 @@ export default function App() {
   return (
     <Container className={classes.mainContainer}>
       <Container className={classes.headerContainer}>
-        <Typography variant="h2">
-          Ontario COVID-19 Info
-        </Typography>
+        <Card className={classes.card}>
+          <CardContent>
+            <Typography variant="h3">
+              Ontario COVID-19 Info
+            </Typography>
+            <Typography variant="body1">
+              Welcome to this interactive dashboard of COVID-19 data for the province of Ontario.
+              All data shown here is sourced from the&nbsp;
+              <a href="https://data.ontario.ca/en/group/2019-novel-coronavirus" target="_blank">Government of Ontario's Data Catalogue</a>, 
+              which contains a number of datasets which provide information on the status of the COVID-19 pandemic.
+            </Typography>
+          </CardContent>
+        </Card>
 
         <Autocomplete
           multiple
