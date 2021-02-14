@@ -11,6 +11,9 @@ import FormGroup from '@material-ui/core/FormGroup';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
+import format from 'date-fns/format';
+import formatDistance from 'date-fns/formatDistance';
+
 import Chart from './Chart';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -102,7 +105,6 @@ export default function App() {
               )}
               style={{
                 margin: 'auto 2rem',
-                //width: '0%',
                 flexGrow: 1,
               }}
               onChange={updateSeries}
@@ -118,7 +120,9 @@ export default function App() {
       </Container>
       
       <Container className={classes.chartContainer}>
-        <h1>{rangeStart.toDateString()} - {rangeEnd.toDateString()}</h1>
+        <Typography variant="h5">
+          {format(rangeStart, 'MMM dd, yyyy')} - {format(rangeEnd, 'MMM dd, yyyy')} ({formatDistance(rangeStart, rangeEnd)})
+        </Typography>
         <Chart data={data} enabledSeries={enabledSeries} rangeStart={rangeStart} rangeEnd={rangeEnd} />
       </Container>
     </Container>

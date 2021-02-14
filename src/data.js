@@ -1,5 +1,9 @@
 import fetchJsonp from 'fetch-jsonp';
 
+import parseISO from 'date-fns/parseISO';
+import format from 'date-fns/format';
+import compareAsc from 'date-fns/compareAsc';
+
 const apiUrl = 'https://data.ontario.ca/api/3/action/datastore_search?';
 const params = {
   resource_id: 'ed270bb8-340b-41f9-a7c6-e8ef587e6d11',
@@ -12,14 +16,12 @@ const fetchData = async () => {
     .then((data) => transformData(data));
 }
 
-const convertToDate = (str) => new Date(str.split('T')[0]);
-
 const basicDataset = (data, oldName, newName) => {
   return {
     id: newName,
     data: data.map((record) => {
       return {
-        x: record['Reported Date'].split('T')[0],
+        x: format(parseISO(record['Reported Date']), 'yyyy-MM-dd'),
         y: record[oldName],
       };
     })
@@ -28,7 +30,7 @@ const basicDataset = (data, oldName, newName) => {
 
 const transformData = (data) => {
   const initialData = data.result.records.sort((a, b) => {
-    return convertToDate(a['Reported Date']) - convertToDate(b['Reported Date']);
+    return compareAsc(parseISO(a['Reported Date']), parseISO(b['Reported Date']));
   });
 
   return [
