@@ -1,3 +1,6 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -30,3 +33,8 @@ export default function ChartTooltip({ date, points }) {
     </section>
   );
 }
+
+ChartTooltip.propTypes = {
+  date: PropTypes.object,
+  points: PropTypes.array,
+};

@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect } from 'react';
 
 import Container from '@material-ui/core/Container';
@@ -57,10 +58,8 @@ export default function App() {
         rangeEnd={rangeEnd}
         handleRangeStartChange={handleRangeStartChange}
         handleRangeEndChange={handleRangeEndChange}
-        enabledSeries={enabledSeries}
         setEnabledSeries={setEnabledSeries}
         seriesOptions={seriesOptions}
-        setSeriesOptions={setSeriesOptions}
         windowSize={windowSize}
         setWindowSize={setWindowSize}
       />

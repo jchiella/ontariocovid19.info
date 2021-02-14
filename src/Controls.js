@@ -1,3 +1,6 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -22,16 +25,14 @@ export default function Controls({
   rangeEnd,
   handleRangeStartChange,
   handleRangeEndChange,
-  enabledSeries,
   setEnabledSeries,
   seriesOptions,
-  setSeriesOptions,
   windowSize,
   setWindowSize,
 }) {
   const classes = useStyles();
 
-  const updateSeries = (event, value, reason) => {
+  const updateSeries = (_event, value) => {
     setEnabledSeries(value);
   };
 
@@ -92,3 +93,14 @@ export default function Controls({
     </MuiPickersUtilsProvider>
   );
 }
+
+Controls.propTypes = {
+  rangeStart: PropTypes.object,
+  rangeEnd: PropTypes.object,
+  handleRangeStartChange: PropTypes.func,
+  handleRangeEndChange: PropTypes.func,
+  setEnabledSeries: PropTypes.func,
+  seriesOptions: PropTypes.array,
+  windowSize: PropTypes.number,
+  setWindowSize: PropTypes.func,
+};

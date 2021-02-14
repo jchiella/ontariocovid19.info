@@ -16,7 +16,7 @@ const fetchData = async (windowSize) => {
   const res = await fetchJsonp(apiUrl + new URLSearchParams(params));
   return res.json()
     .then((data) => transformData(data, windowSize));
-}
+};
 
 const basicDataset = (data, newName, oldName) => {
   return {
@@ -101,7 +101,7 @@ const transformData = (data, windowSize) => {
 
     averageDataset(initialData, windowSize, 'Average Hospitalizations', 'Number of patients hospitalized with COVID-19'),
   ];
-}
+};
 
 export {
   fetchData,
