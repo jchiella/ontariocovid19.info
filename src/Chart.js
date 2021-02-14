@@ -11,7 +11,7 @@ export default function Chart({ data, enabledSeries, rangeStart, rangeEnd }) {
             .map((series) => {
               return {
                 id: series.id,
-                data: series.data.map((item) => new Date(item.x) >= rangeStart /*&& new Date(item.x) <= rangeEnd*/),
+                data: series.data.filter((item) => new Date(item.x) >= rangeStart && new Date(item.x) <= rangeEnd),
               };
             })
         }

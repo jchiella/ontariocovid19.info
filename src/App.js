@@ -8,6 +8,9 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import FormGroup from '@material-ui/core/FormGroup';
 
+import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+
 import Chart from './Chart';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -36,7 +39,7 @@ const useStyles = makeStyles({
   },
   controls: {
     flexDirection: 'row',
-    width: '80%',
+    width: '100%',
     margin: 'auto',
   }
 });
@@ -48,8 +51,8 @@ export default function App() {
   const [enabledSeries, setEnabledSeries] = useState([]);
   const [seriesOptions, setSeriesOptions] = useState([]);
 
-  const [rangeStart, setRangeStart] = useState(new Date('2020-01-26'));
-  const [rangeEnd, setRangeEnd] = useState(new Date());
+  const [rangeStart, handleRangeStartChange] = useState(new Date('2020-01-26'));
+  const [rangeEnd, handleRangeEndChange] = useState(new Date());
 
   useEffect(() => {
     fetchData().then((data) => {
@@ -79,44 +82,38 @@ export default function App() {
           </CardContent>
         </Card>
 
-        <FormGroup className={classes.controls}>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <FormGroup className={classes.controls}>
+            <DatePicker
+              value={rangeStart}
+              onChange={handleRangeStartChange}
+            />
 
-          <TextField
-            onChange={(e) => setRangeStart(new Date(e.target.value))}
-            label="Start of Range"
-            type="date"
-            defaultValue="2020-01-26"
-          />
+            <Autocomplete
+              multiple
+              fullWidth={false}
+              options={seriesOptions}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  label="Datasets"
+                />
+              )}
+              style={{
+                margin: 'auto 2rem',
+                //width: '0%',
+                flexGrow: 1,
+              }}
+              onChange={updateSeries}
+            />
 
-          <Autocomplete
-            multiple
-            fullWidth={false}
-            options={seriesOptions}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                variant="outlined"
-                label="Datasets"
-              />
-            )}
-            style={{
-              margin: 'auto 2rem',
-              width: '50%',
-            }}
-            onChange={updateSeries}
-          />
-
-          <TextField
-            onChange={(e) => setRangeEnd(new Date(e.target.value))}
-            label="End of Range"
-            type="date"
-            defaultValue={
-              new Date((new Date()).getTime() - (new Date().getTimezoneOffset() * 60000 ))
-                .toISOString()
-                .split("T")[0]
-            }
-          />
-        </FormGroup>
+            <DatePicker
+              value={rangeEnd}
+              onChange={handleRangeEndChange}
+            />
+          </FormGroup>
+        </MuiPickersUtilsProvider>
         
       </Container>
       
