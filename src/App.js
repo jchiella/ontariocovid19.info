@@ -92,8 +92,13 @@ export default function App() {
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <FormGroup className={classes.controls}>
             <DatePicker
+              label="Start Date"
               value={rangeStart}
               onChange={handleRangeStartChange}
+              minDate="2020-01-26"
+              minDateMessage="Date cannot be before the start of the pandemic"
+              maxDate={rangeEnd}
+              maxDateMessage="Date cannot be after the end of the range"
             />
 
             <Autocomplete
@@ -115,8 +120,13 @@ export default function App() {
             />
 
             <DatePicker
+              label="End Date"
               value={rangeEnd}
               onChange={handleRangeEndChange}
+              minDate={rangeStart}
+              minDateMessage="Date cannot be before the start of the range"
+              maxDate={new Date()}
+              maxDateMessage="Date cannot be after today"
             />
           </FormGroup>
         </MuiPickersUtilsProvider>
