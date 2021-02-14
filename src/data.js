@@ -14,35 +14,27 @@ const fetchData = async () => {
 
 const convertToDate = (str) => new Date(str.split('T')[0]);
 
+const basicDataset = (data, oldName, newName) => {
+  return {
+    id: newName,
+    data: data.map((record) => {
+      return {
+        x: record['Reported Date'].split('T')[0],
+        y: record[oldName],
+      };
+    })
+  };
+};
+
 const transformData = (data) => {
   const initialData = data.result.records.sort((a, b) => {
     return convertToDate(a['Reported Date']) - convertToDate(b['Reported Date']);
   });
-  const finalData = [];
 
-  // Total Cases series
-  finalData.push({
-    id: 'Total Cases',
-    data: initialData.map((record) => {
-      return {
-        x: record['Reported Date'].split('T')[0],
-        y: record['Total Cases'],
-      };
-    })
-  });
-
-  // Deaths series
-  finalData.push({
-    id: 'Deaths',
-    data: initialData.map((record) => {
-      return {
-        x: record['Reported Date'].split('T')[0],
-        y: record['Deaths'],
-      };
-    })
-  })
-
-  return finalData;
+  return [
+    basicDataset(initialData, 'Total Cases', 'Total Cases'),
+    basicDataset(initialData, 'Deaths', 'Deaths'),
+  ];
 }
 
 export {
