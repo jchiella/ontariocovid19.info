@@ -5,7 +5,9 @@ export default function Chart({ data }) {
     <ResponsiveLine
         data={data}
         margin={{
-          'bottom': 30
+          'bottom': 80,
+          'left': 40,
+          'right': 40,
         }}
         curve="natural"
         xScale={{ 
@@ -13,7 +15,8 @@ export default function Chart({ data }) {
           format: '%Y-%m-%d'
         }}
         axisBottom={{
-          format: '%Y-%m-%d',
+          format: '%b %d',
+          tickRotation: 90,
         }}
         xFormat="time:%Y-%m-%d"
         enableGridX={false}
@@ -22,33 +25,13 @@ export default function Chart({ data }) {
         enablePoints={false}
         enableArea={true}
         areaOpacity={0.3}
+
         useMesh={true}
-        legends={[
-            {
-                anchor: 'top',
-                direction: 'row',
-                justify: false,
-                translateX: 0,
-                translateY: 0,
-                itemsSpacing: 0,
-                itemDirection: 'left-to-right',
-                itemWidth: 80,
-                itemHeight: 20,
-                itemOpacity: 0.75,
-                symbolSize: 12,
-                symbolShape: 'circle',
-                symbolBorderColor: 'rgba(0, 0, 0, .5)',
-                effects: [
-                    {
-                        on: 'hover',
-                        style: {
-                            itemBackground: 'rgba(0, 0, 0, .03)',
-                            itemOpacity: 1
-                        }
-                    }
-                ]
-            }
-        ]}
-    />
+
+        tooltip={({point}) => {
+          return <div>{`${point.serieId} on ${point.data.xFormatted}: ${point.data.yFormatted}`}</div>;
+        }}
+        
+      />
   )
 }
