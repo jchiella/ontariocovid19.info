@@ -26,7 +26,7 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100vh',
+    height: '98vh',
   },
   headerContainer: {
     padding: '1rem',
@@ -37,8 +37,9 @@ const useStyles = makeStyles({
     padding: '1rem',
   },
   card: {
-    margin: '1rem',
+    margin: '1rem auto',
     textAlign: 'center',
+    width: '50%',
   },
   controls: {
     flexDirection: 'row',
@@ -76,11 +77,14 @@ export default function App() {
             <Typography variant="h3">
               Ontario COVID-19 Info
             </Typography>
-            <Typography variant="body1">
+            <Typography variant="body1" style={{ marginBottom: '2rem' }}>
               Welcome to this interactive dashboard of COVID-19 data for the province of Ontario.
               All data shown here is sourced from the&nbsp;
               <a href="https://data.ontario.ca/en/group/2019-novel-coronavirus" target="_blank">Government of Ontario's Data Catalogue</a>, 
               which contains a number of datasets which provide information on the status of the COVID-19 pandemic.
+            </Typography>
+            <Typography variant="body2">
+              Made with 💙 by <a href="jameschiella.ca">james chiella</a>
             </Typography>
           </CardContent>
         </Card>

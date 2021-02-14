@@ -17,7 +17,7 @@ export default function ChartTooltip({ series, date, value }) {
     <section className={classes.tooltip}>
       <strong>{series}</strong><br />
       <em>{new Date(date).toDateString()}</em><br />
-      {value}
+      {value.toLocaleString()}
     </section>
   );
 }
