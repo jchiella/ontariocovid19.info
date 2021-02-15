@@ -12,7 +12,7 @@ const params = {
   limit: 100000,
 };
 
-const fetchData = async (windowSize) => {
+const fetchStatusData = async (windowSize) => {
   const res = await fetchJsonp(apiUrl + new URLSearchParams(params));
   return res.json()
     .then((data) => transformData(data, windowSize));
@@ -140,5 +140,5 @@ const transformData = (data, windowSize) => {
 };
 
 export {
-  fetchData,
+  fetchStatusData,
 };

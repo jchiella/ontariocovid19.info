@@ -8,13 +8,17 @@ import format from 'date-fns/format';
 import formatDistance from 'date-fns/formatDistance';
 
 import Chart from './Chart';
+import StatsChart from './StatsChart';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import { fetchData } from './data';
+import { fetchStatusData } from './caseData';
+import { fetchCasesData } from './statsData';
 
 import Header from './Header';
 import Controls from './Controls';
+
+//import testData from './testData.json';
 
 const useStyles = makeStyles({
   mainContainer: {
@@ -32,6 +36,7 @@ export default function App() {
   const classes = useStyles();
 
   const [data, setData] = useState([]);
+  const [stats, setStats] = useState([]);
   const [enabledSeries, setEnabledSeries] = useState([]);
   const [seriesOptions, setSeriesOptions] = useState([]);
 
@@ -42,12 +47,18 @@ export default function App() {
 
   useEffect(() => {
     if (windowSize > 0) {
-      fetchData(windowSize).then((data) => {
+      fetchStatusData(windowSize).then((data) => {
         setData(data);
         setSeriesOptions(data.map((series) => series.id));
       });
     }
   }, [windowSize]);
+
+  useEffect(() => {
+    fetchCasesData().then((data) => {
+      setStats(data);
+    });
+  }, []);
 
   return (
     <Container className={classes.mainContainer}>
@@ -69,6 +80,19 @@ export default function App() {
           {format(rangeStart, 'MMM dd, yyyy')} - {format(rangeEnd, 'MMM dd, yyyy')} ({formatDistance(rangeStart, rangeEnd)})
         </Typography>
         <Chart data={data} enabledSeries={enabledSeries} rangeStart={rangeStart} rangeEnd={rangeEnd} />
+      </Container>
+
+      <Container>
+        {
+          stats.map((stat, i) => (
+            <section key={i} style={{ height: '40rem' }}>
+              <Typography variant="h5">
+                {stat.name}
+              </Typography>
+              <StatsChart data={stat.data} />
+            </section>
+          ))
+        }
       </Container>
     </Container>
   );
