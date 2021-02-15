@@ -3,7 +3,7 @@ import fetchJsonp from 'fetch-jsonp';
 const apiUrl = 'https://data.ontario.ca/api/3/action/datastore_search?';
 const params = {
   resource_id: '455fd63b-603d-4608-8216-7d8647f43350',
-  limit: 1000,
+  limit: 10000,
 };
 
 const fetchCasesData = async () => {
