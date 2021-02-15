@@ -8,7 +8,6 @@ import format from 'date-fns/format';
 import formatDistance from 'date-fns/formatDistance';
 
 import Chart from './Chart';
-import StatsChart from './StatsChart';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -17,8 +16,7 @@ import { fetchCasesData } from './statsData';
 
 import Header from './Header';
 import Controls from './Controls';
-
-//import testData from './testData.json';
+import Stats from './Stats';
 
 const useStyles = makeStyles({
   mainContainer: {
@@ -64,6 +62,10 @@ export default function App() {
     <Container className={classes.mainContainer}>
       <Header />
 
+      <Typography variant="h4">
+        Interactive Chart
+      </Typography>
+
       <Controls 
         rangeStart={rangeStart}
         rangeEnd={rangeEnd}
@@ -82,18 +84,11 @@ export default function App() {
         <Chart data={data} enabledSeries={enabledSeries} rangeStart={rangeStart} rangeEnd={rangeEnd} />
       </Container>
 
-      <Container>
-        {
-          stats.map((stat, i) => (
-            <section key={i} style={{ height: '40rem' }}>
-              <Typography variant="h5">
-                {stat.name}
-              </Typography>
-              <StatsChart data={stat.data} />
-            </section>
-          ))
-        }
-      </Container>
+      <Typography variant="h4">
+        Case Statistics
+      </Typography>
+
+      <Stats stats={stats} />
     </Container>
   );
 }

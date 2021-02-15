@@ -12,15 +12,27 @@ const fetchCasesData = async () => {
     .then((data) => transformData(data));
 };
 
-const statsDataset = (data, name, field, values) => {
+const statsDataset = (data, name, field) => {
+  const counts = {};
+
+  data.map((record) => {
+    if (counts[record[field]] === undefined) {
+      counts[record[field]] = 0;
+    } else {
+      counts[record[field]] += 1;
+    }
+  });
+
+  console.log(counts);
+
   return {
     name,
-    data: values.map((val) => {
+    data: Object.entries(counts).map(([countName, countVal]) => {
       return {
-        'id': val,
-        'value': data.filter((record) => record[field] === val).length
+        id: countName,
+        value: countVal,
       };
-    }).filter((point) => point.value !== 0),
+    }),
   };
 };
 
@@ -28,9 +40,11 @@ const transformData = (data) => {
   const initialData = data.result.records;
 
   return [
-    statsDataset(initialData, 'Sex', 'Client_Gender', ['FEMALE', 'MALE']),
-    statsDataset(initialData, 'Method of Exposure', 'Case_AcquisitionInfo', ['CC', 'No Epi-link', 'No Info-Missing', 'No Info-Unknown', 'OB', 'Travel']),
-    statsDataset(initialData, 'Outcome', 'Outcome1', ['Resolved', 'Not Resolved', 'Fatal']),
+    statsDataset(initialData, 'By Sex', 'Client_Gender'),
+    statsDataset(initialData, 'By Method of Exposure', 'Case_AcquisitionInfo'),
+    statsDataset(initialData, 'By Outcome', 'Outcome1'),
+    statsDataset(initialData, 'By Public Health Unit', 'Reporting_PHU'),
+    statsDataset(initialData, 'By Age Group', 'Age_Group'),
   ];
 };
 

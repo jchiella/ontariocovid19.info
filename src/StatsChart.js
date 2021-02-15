@@ -9,6 +9,18 @@ export default function StatsChart({ data }) {
       data={data}
       margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
       innerRadius={0.5}
+      enableRadialLabels={false}
+      enableSliceLabels={false}
+      legends={[
+        {
+          anchor: 'left',
+          direction: 'column',
+          justify: false,
+          itemsSpacing: 15,
+          itemHeight: 10,
+          symbolShape: 'circle',
+        },
+      ]}
     />
   );
 }
