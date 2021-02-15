@@ -29,12 +29,11 @@ export default function ChartTooltip({ date, points }) {
           );
         })
       }
-      
     </section>
   );
 }
 
 ChartTooltip.propTypes = {
-  date: PropTypes.object,
+  date: PropTypes.string,
   points: PropTypes.array,
 };

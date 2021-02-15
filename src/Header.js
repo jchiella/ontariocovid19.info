@@ -34,7 +34,7 @@ export default function Header() {
             which contains a number of datasets which provide information on the status of the COVID-19 pandemic.
           </Typography>
           <Typography variant="body2">
-            Made with 💙 by <a href="jameschiella.ca">james chiella</a>
+            Made with 💙 by <a href="https://jameschiella.ca">james chiella</a>
           </Typography>
         </CardContent>
       </Card>

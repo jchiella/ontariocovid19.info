@@ -80,6 +80,33 @@ const averageDataset = (data, windowSize, newName, oldName) => {
   };
 };
 
+const dailyAvgDataset = (data, windowSize, newName, oldName) => {
+  let previousData = 0;
+  const dailyData = data.map((record) => {
+    const result = record[oldName] - previousData;
+    previousData = record[oldName];
+    return result;
+  });
+
+  const averagedData = movingAverage(
+    dailyData,
+    {
+      before: Math.ceil(windowSize / 2),
+      after: Math.floor(windowSize / 2),
+    }
+  );
+
+  return {
+    id: newName,
+    data: data.map((record, i) => {
+      return {
+        x: format(parseISO(record['Reported Date']), 'yyyy-MM-dd'),
+        y: averagedData[i],
+      };
+    })
+  };
+};
+
 const transformData = (data, windowSize) => {
   const initialData = data.result.records.sort((a, b) => {
     return compareAsc(parseISO(a['Reported Date']), parseISO(b['Reported Date']));
@@ -87,19 +114,28 @@ const transformData = (data, windowSize) => {
 
   return [
     basicDataset(initialData, 'Daily Active Cases', 'Confirmed Positive'),
+
     basicDataset(initialData, 'Cumulative Resolved Cases', 'Resolved'),
     basicDataset(initialData, 'Cumulative Deaths', 'Deaths'),
     basicDataset(initialData, 'Cumulative Cases', 'Total Cases'),
+
     basicDataset(initialData, 'Daily Tests Completed in Previous 24h', 'Total tests completed in the last day'),
     basicDataset(initialData, 'Daily Pending Tests', 'Under Investigation'),
     basicDataset(initialData, 'Daily Hospitalizations', 'Number of patients hospitalized with COVID-19'),
     basicDataset(initialData, 'Daily ICU Patients', 'Number of patients in ICU with COVID-19'),
     basicDataset(initialData, 'Daily Patients on a Ventilator', 'Number of patients in ICU on a ventilator with COVID-19'),
-
-    dailyDataset(initialData, 'Daily New Cases', 'Total Cases'),
+    
+    dailyDataset(initialData, 'Daily Resolved Cases', 'Resolved'),
     dailyDataset(initialData, 'Daily New Deaths', 'Deaths'),
+    dailyDataset(initialData, 'Daily New Cases', 'Total Cases'),
 
-    averageDataset(initialData, windowSize, 'Average Hospitalizations', 'Number of patients hospitalized with COVID-19'),
+    dailyAvgDataset(initialData, windowSize, 'Average Daily Resolved Cases', 'Resolved'),
+    dailyAvgDataset(initialData, windowSize, 'Average Daily New Deaths', 'Deaths'),
+    dailyAvgDataset(initialData, windowSize, 'Average Daily New Cases', 'Total Cases'),
+
+    averageDataset(initialData, windowSize, 'Average Daily Hospitalizations', 'Number of patients hospitalized with COVID-19'),
+    averageDataset(initialData, windowSize, 'Average Daily ICU Patients', 'Number of patients in ICU with COVID-19'),
+    averageDataset(initialData, windowSize, 'Average Daily Patients on a Ventilator', 'Number of patients in ICU on a ventilator with COVID-19'),
   ];
 };
 

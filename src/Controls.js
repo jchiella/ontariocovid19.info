@@ -5,6 +5,9 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import InputLabel from '@material-ui/core/InputLabel';
 
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
@@ -82,13 +85,28 @@ export default function Controls({
           label="Moving Average Window"
           type="number"
           value={windowSize}
-          onChange={(e) => setWindowSize(e.target.value)}
+          onChange={(e) => setWindowSize(parseInt(e.target.value))}
           InputProps={{
             min: 1,
             max: 30,
             endAdornment: <InputAdornment position="end">days</InputAdornment>,
+            onKeyDown: (e) => e.preventDefault(),
+            style: {
+              caretColor: 'white',
+            }
           }}
         />
+
+        <section style={{display: 'inline-block'}}>
+          <InputLabel>Common Moving Average Windows</InputLabel>
+          <ButtonGroup size="small">
+            <Button onClick={() => setWindowSize(5)}>5</Button>
+            <Button onClick={() => setWindowSize(7)}>7</Button>
+            <Button onClick={() => setWindowSize(10)}>10</Button>
+            <Button onClick={() => setWindowSize(14)}>14</Button>
+            <Button onClick={() => setWindowSize(21)}>21</Button>
+          </ButtonGroup>
+        </section>
       </Container>
     </MuiPickersUtilsProvider>
   );
